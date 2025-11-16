@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Bybit Funding - Perpétuos USDT (Live)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bybit_funding_styles.css">
+</head>
+<body>
+<header>
+    <h1>Bybit Funding - Perpétuos USDT</h1>
+    <h2>Painel dinâmico de funding com notional configurável</h2>
+</header>
+
+<div class="controls">
+    <div class="controls-group">
+        <label for="notionalInput">Notional (USDT):</label>
+        <input type="number" id="notionalInput" value="1000" min="0" step="0.01">
+        <button id="btnAtualizar">
+            🔄 Carregar / Atualizar agora
+        </button>
+    </div>
+    <div class="controls-group">
+        <span class="status-text" id="statusText">Aguardando primeira atualização...</span><br>
+    </div>
+</div>
+
+<div class="info-box" id="infoBox" style="display: none;">
+    <div class="info-item">
+        <div class="info-label">Notional utilizado</div>
+        <div class="info-value" id="infoNotional">-</div>
+    </div>
+    <div class="info-item">
+        <div class="info-label">Quantidade de moedas perp encontradas</div>
+        <div class="info-value" id="infoMoedas">-</div>
+    </div>
+    <div class="info-item">
+        <div class="info-label">Tempo da última atualização</div>
+        <div class="info-value" id="infoTempo">-</div>
+    </div>
+    <div class="info-item">
+        <div class="info-label">Próxima atualização automática</div>
+        <div class="info-value" id="infoNextRefresh">-</div>
+    </div>
+</div>
+
+<div class="table-container">
+    <div class="table-scroll">
+        <table id="fundingTable">
+            <thead>
+            <tr>
+                <th data-col="0" data-type="string">Moeda</th>
+                <th data-col="1" data-type="string">Categoria</th>
+                <th data-col="2" data-type="number">Funding Rate (%)</th>
+                <th data-col="3" data-type="string">Direção que paga</th>
+                <th data-col="4" data-type="number">Taxa por ciclo (USDT)</th>
+                <th data-col="5" data-type="number">Taxa por hora (USDT)</th>
+                <th data-col="6" data-type="number">Last</th>
+                <th data-col="7" data-type="number">Index</th>
+                <th data-col="8" data-type="number">Mark</th>
+                <th data-col="9" data-type="number">Intervalo (h)</th>
+                <th data-col="10" data-type="string">Próx funding</th>
+                <th data-col="11" data-type="number">Notional (USDT)</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- linhas serão preenchidas via JS -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="footer">
+    Desenvolvido por Gordin novato &amp; GPT 🤖
+</div>
+
+<script src="js/bybit_funding_app.js"></script>
+</body>
+</html>
