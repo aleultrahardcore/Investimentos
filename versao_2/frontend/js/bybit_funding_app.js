@@ -3,7 +3,6 @@
 const BACKEND_URL = "https://investimentos-sogc.onrender.com"; // render
 //const BACKEND_URL = "http://127.0.0.1:8000"; // local
 
-
 let autoRefreshInterval = null;
 let countdownInterval = null;
 const REFRESH_SECONDS = 30;
@@ -53,6 +52,21 @@ function renderTable(linhas) {
     }
 }
 
+// 🔢 helper pra limpar números (ignora +/-, %, USDT, etc.)
+function cleanNumber(text) {
+    if (!text) return 0;
+
+    let cleaned = text
+        .replace(/[+\-]/g, "")   // remove + e -
+        .replace(/USDT/gi, "")   // remove "USDT"
+        .replace(/%/g, "")       // remove %
+        .replace(/[^\d.,]/g, "") // remove tudo que não for dígito, . ou ,
+        .replace(",", ".");      // vírgula vira ponto
+
+    const value = parseFloat(cleaned);
+    return isNaN(value) ? 0 : value;
+}
+
 function attachSortHandlers() {
     const cabecalhos = fundingTable.querySelectorAll("thead th");
 
@@ -63,6 +77,7 @@ function attachSortHandlers() {
             const tbody = fundingTable.querySelector("tbody");
             const linhas = Array.from(tbody.querySelectorAll("tr"));
 
+            // limpa estado dos outros cabeçalhos
             cabecalhos.forEach(h => {
                 if (h !== th) {
                     h.classList.remove("sort-asc", "sort-desc");
@@ -75,15 +90,15 @@ function attachSortHandlers() {
             th.classList.toggle("sort-desc", !novoAsc);
 
             linhas.sort((a, b) => {
-                const aText = a.children[colIndex].innerText.replace("%", "").trim();
-                const bText = b.children[colIndex].innerText.replace("%", "").trim();
+                const aText = a.children[colIndex].innerText.trim();
+                const bText = b.children[colIndex].innerText.trim();
 
-                let aVal = aText;
-                let bVal = bText;
+                let aVal, bVal;
 
                 if (tipo === "number") {
-                    aVal = parseFloat(aText.replace(",", ".")) || 0;
-                    bVal = parseFloat(bText.replace(",", ".")) || 0;
+                    // aqui usamos o valor absoluto, ignorando +/-
+                    aVal = cleanNumber(aText);
+                    bVal = cleanNumber(bText);
                 } else {
                     aVal = aText.toLowerCase();
                     bVal = bText.toLowerCase();
